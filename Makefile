@@ -1,4 +1,4 @@
-CENTOS_RELEASE_RPM_NAME = centos-release-7-0.1406.el7.centos.2.4.x86_64.rpm
+CENTOS_RELEASE_RPM_NAME = centos-release-7-0.1406.el7.centos.2.5.x86_64.rpm
 ROOTFS = build/root
 
 all: $(ROOTFS)
@@ -51,5 +51,6 @@ $(ROOTFS): build/$(CENTOS_RELEASE_RPM_NAME)
 	sudo ./chroot.sh $(ROOTFS).tmp grub2-mkconfig -o /boot/grub2/grub.cfg || true
 	test -e $(ROOTFS).tmp/boot/grub2/grub.cfg
 	sudo grep console.ttyS0 $(ROOTFS).tmp/boot/grub2/grub.cfg
+	sudo rm -fr $(ROOTFS).tmp/tmp/* $(ROOTFS).tmp/var/tmp/*
 	echo
 	mv $(ROOTFS).tmp $(ROOTFS)
