@@ -3,10 +3,10 @@ ROOTFS = build/root
 
 all: $(ROOTFS)
 
-submit: $(ROOTFS)
-	sudo -E solvent submitproduct rootfs $<
+submit:
+	sudo -E solvent submitproduct rootfs $(ROOTFS)
 
-approve: $(ROOTFS)
+approve:
 	sudo -E solvent approve --product=rootfs
 
 clean:
@@ -48,10 +48,10 @@ $(ROOTFS): build/$(CENTOS_RELEASE_RPM_NAME)
 	sudo cp ifcfg-eth0 $(ROOTFS).tmp/etc/sysconfig/network-scripts/ifcfg-eth0
 	echo "writing configuration 4: boot-loader"
 	sudo cp etc_default_grub $(ROOTFS).tmp/etc/default/grub
-	sudo ./chroot.sh $(ROOTFS).tmp grub2-mkconfig -o /boot/grub2/grub.cfg || true
+	sudo ./chroot.py $(ROOTFS).tmp grub2-mkconfig -o /boot/grub2/grub.cfg || true
 	test -e $(ROOTFS).tmp/boot/grub2/grub.cfg
 	sudo sh -c "echo 'add_dracutmodules+=\"lvm\"' >> $(ROOTFS).tmp/etc/dracut.conf"
-	sudo ./chroot.sh $(ROOTFS).tmp dracut --kver=`ls $(ROOTFS).tmp/lib/modules` --force
+	sudo ./chroot.py $(ROOTFS).tmp dracut --kver=`ls $(ROOTFS).tmp/lib/modules` --force
 	sudo grep console.ttyS0 $(ROOTFS).tmp/boot/grub2/grub.cfg
 	sudo rm -fr $(ROOTFS).tmp/tmp/* $(ROOTFS).tmp/var/tmp/*
 	echo
