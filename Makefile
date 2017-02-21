@@ -54,5 +54,6 @@ $(ROOTFS): build/$(CENTOS_RELEASE_RPM_NAME)
 	sudo ./chroot.py $(ROOTFS).tmp dracut --kver=`ls $(ROOTFS).tmp/lib/modules` --force
 	sudo grep console.ttyS0 $(ROOTFS).tmp/boot/grub2/grub.cfg
 	sudo rm -fr $(ROOTFS).tmp/tmp/* $(ROOTFS).tmp/var/tmp/*
+	sudo yum clean all
 	echo
 	mv $(ROOTFS).tmp $(ROOTFS)
