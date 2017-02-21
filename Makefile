@@ -15,7 +15,7 @@ clean:
 build/$(CENTOS_RELEASE_RPM_NAME):
 	-mkdir $(@D)
 	yumdownloader --config=centos.yum.conf --destdir=build centos-release
-	test -e $@
+	sudo test -e $@
 
 $(ROOTFS): build/$(CENTOS_RELEASE_RPM_NAME)
 	echo "Testing sudo works - if this fails add the following line to /etc/sudoers:"
@@ -49,7 +49,7 @@ $(ROOTFS): build/$(CENTOS_RELEASE_RPM_NAME)
 	echo "writing configuration 4: boot-loader"
 	sudo cp etc_default_grub $(ROOTFS).tmp/etc/default/grub
 	sudo ./chroot.py $(ROOTFS).tmp grub2-mkconfig -o /boot/grub2/grub.cfg || true
-	test -e $(ROOTFS).tmp/boot/grub2/grub.cfg
+	sudo test -e $(ROOTFS).tmp/boot/grub2/grub.cfg
 	sudo sh -c "echo 'add_dracutmodules+=\"lvm\"' >> $(ROOTFS).tmp/etc/dracut.conf"
 	sudo ./chroot.py $(ROOTFS).tmp dracut --kver=`ls $(ROOTFS).tmp/lib/modules` --force
 	sudo grep console.ttyS0 $(ROOTFS).tmp/boot/grub2/grub.cfg
