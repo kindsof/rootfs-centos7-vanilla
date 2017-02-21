@@ -1,4 +1,4 @@
-CENTOS_RELEASE_RPM_NAME = centos-release-7-0.1406.el7.centos.2.5.x86_64.rpm
+CENTOS_RELEASE_RPM_NAME = centos-release-7-3.1611.el7.centos.x86_64.rpm
 ROOTFS = build/root
 
 all: $(ROOTFS)
