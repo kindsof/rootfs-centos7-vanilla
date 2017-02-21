@@ -33,6 +33,9 @@ $(ROOTFS): build/$(CENTOS_RELEASE_RPM_NAME)
 	sudo rm -fr $(ROOTFS).tmp/etc/yum.repos.d/*repo*
 	echo "Adding strato frozen repositories"
 	sed 's/.*reposdir.*//' centos.yum.conf | sudo sh -c "cat > $(ROOTFS).tmp/etc/yum.conf"
+	echo "tmp"
+	sudo chmod 666 /etc/resolv.conf
+	sudo echo "nameserver 127.0.0.1" >> /etc/resolv.conf
 	echo "Installing minimal install"
 	sudo yum --nogpgcheck --installroot=$(abspath $(ROOTFS)).tmp groupinstall "minimal install" --assumeyes
 	echo "Updating"
